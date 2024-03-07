@@ -1,7 +1,6 @@
 "use client";
 import DefaultHeader from "@/components/base/default-header";
 import Map from "@/components/maps/map";
-import { Slider } from "@/components/ui/slider";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -18,42 +17,42 @@ import {
 } from "@/components/ui/card";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { useRef } from "react";
+import Container from "@/components/ui/container";
 
 export default function Home() {
+  const searchInputRef = useRef(null);
+
   return (
     <>
+      <main className="flex flex-col items-center justify-between gap-8 h-screen">
       <DefaultHeader />
+        <Container>
+          <form
+            action="#"
+            className="flex items-center justify-between w-full p-4 bg-gray-300 bg-opacity-10 rounded-xl shadow-md gap-4"
+          >
+            <div>
+              <input
+                type="text"
+                ref={searchInputRef}
+                className="bg-gray-200 focus:bg-gray-300 dark:bg-gray-700 dark:focus:bg-gray-600 p-2 w-full rounded flex-1 text-xl border-none outline-none transition-colors"
+                placeholder="Pesquisa"
+              />
+            </div>
 
-      <main className="flex flex-col items-center justify-between p-24 gap-8">
-        <form
-          action="#"
-          className="flex items-center justify-between w-full p-4 bg-gray-300 bg-opacity-10 rounded-xl shadow-md gap-4"
-        >
-          <div>
-            <label htmlFor="neighborhood">Neighborhood</label>
-            <select name="neighborhood" id="neighborhood">
-              <option value="all">All</option>
-              <option value="downtown">Downtown</option>
-              <option value="uptown">Uptown</option>
-              <option value="midtown">Midtown</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor="price">Price Range</label>
-            <Slider
-              defaultValue={[0, 10000]}
-              min={0}
-              step={1000}
-              max={10000}
-              className="w-full"
-            />
-          </div>
-          <button type="submit">Search</button>
-        </form>
+            <button
+              type="submit"
+              className="bg-gray-200 hover:bg-gray-400 dark:bg-gray-500 dark:hover:bg-gray-600 transition-colors shadow-md px-4 py-2 rounded"
+            >
+              Pesquisar
+            </button>
+          </form>
+        </Container>
 
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={70}>
-            <ScrollArea className="h-[600px] px-4 rounded-md border p-4">
+            <ScrollArea className="h-full px-4 rounded-md border p-4">
               <ul>
                 <li>
                   <Card>
@@ -190,8 +189,8 @@ export default function Home() {
             </ScrollArea>
           </ResizablePanel>
           <ResizableHandle withHandle />
-          <ResizablePanel className="p-2">
-            <Map />
+          <ResizablePanel className="pl-2">
+            <Map inputSearchRef={searchInputRef} />
           </ResizablePanel>
         </ResizablePanelGroup>
       </main>
